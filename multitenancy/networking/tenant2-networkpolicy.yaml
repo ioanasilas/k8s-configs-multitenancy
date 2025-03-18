@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-cross-namespace
+  namespace: tenant2
+spec:
+  podSelector: {}  # applies to all pods in tenant2
+  policyTypes:
+  - Ingress  # only affects incoming traffic
+  ingress:
+  - from:
+    - podSelector: {}  # allows traffic only within tenant2

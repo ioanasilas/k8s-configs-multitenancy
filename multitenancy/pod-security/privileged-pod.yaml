@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: privileged-pod
+  namespace: tenant1
+spec:
+  containers:
+  - name: privileged-container
+    image: polinux/stress
+    command: ["stress", "--cpu", "1"]
+    securityContext:
+      privileged: true  # this gives elevated privileges
+  hostNetwork: true  # this allows the pod to share the host's network namespace
+  volumes:
+    - name: host-volume
+      hostPath:
+        path: /etc  # this is an example of accessing the host filesystem
+        type: Directory

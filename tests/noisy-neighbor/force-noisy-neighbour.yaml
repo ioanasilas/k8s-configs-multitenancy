@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tenant1-noisy
+  namespace: tenant1
+spec:
+  replicas: 1  # start with 1 replica
+  selector:
+    matchLabels:
+      app: tenant1-noisy
+  template:
+    metadata:
+      labels:
+        app: tenant1-noisy
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - k8s-worker1  # force onto k8s-worker1
+      containers:
+      - name: stress-container
+        image: polinux/stress
+        command: ["stress", "--cpu", "6", "--vm", "4", "--vm-bytes", "1G"]
+        resources:
+          requests:
+            cpu: "1"  # min guaranteed
+          limits:
+            cpu: "6"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tenant2-cpu-hog
+  namespace: tenant2
+spec:
+  replicas: 1  # start with 1 replica
+  selector:
+    matchLabels:
+      app: tenant2-cpu-hog
+  template:
+    metadata:
+      labels:
+        app: tenant2-cpu-hog
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - k8s-worker1  # force onto k8s-worker1
+      containers:
+      - name: stress-container
+        image: polinux/stress
+        command: ["stress", "--cpu", "6", "--vm", "3", "--vm-bytes", "1G"]
+        resources:
+          requests:
+            cpu: "1"  # min guaranteed
+          limits:
+           cpu:  "2"
+

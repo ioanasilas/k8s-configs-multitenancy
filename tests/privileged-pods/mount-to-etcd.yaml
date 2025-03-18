@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sensitive-mount-test
+  namespace: tenant1
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - mountPath: /etc
+      name: etc-mount
+  volumes:
+  - name: etc-mount
+    hostPath:
+      path: /etc

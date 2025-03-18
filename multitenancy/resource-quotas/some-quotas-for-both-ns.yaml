@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: tenant1-quota
+  namespace: tenant1
+spec:
+  hard:
+    cpu: "6"        # maximum total CPU usage in this ns
+    memory: "8Gi"    # maximum total memory usage is 8Gi
+    pods: "10"       # maximum 10 pods in this ns
+    services: "5"    # maximum 5 services in this ns
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: tenant1-limits
+  namespace: tenant1
+spec:
+  limits:
+    - default:
+        cpu: "500m"
+        memory: "512Mi"
+      defaultRequest:
+        cpu: "500m"
+        memory: "512Mi"
+      max:
+        cpu: "2"
+        memory: "1Gi"
+      min:
+        cpu: "100m"
+        memory: "256Mi"
+      type: Container
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: tenant2-quota
+  namespace: tenant2
+spec:
+  hard:
+    cpu: "6"        # maximum total CPU usage in this ns
+    memory: "8Gi"    # maximum total memory usage is 8Gi
+    pods: "10"       # maximum 10 pods in this ns
+    services: "5"    # maximum 5 services in this ns
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: tenant2-limits
+  namespace: tenant2
+spec:
+  limits:
+    - default:
+        cpu: "500m"
+        memory: "512Mi"
+      defaultRequest:
+        cpu: "500m"
+        memory: "512Mi"
+      max:
+        cpu: "2"
+        memory: "1Gi"
+      min:
+        cpu: "200m"
+        memory: "256Mi"
+      type: Container
