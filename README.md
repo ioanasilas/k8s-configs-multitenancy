@@ -1,6 +1,10 @@
 
 # k8s-configs-multitenancy
 Some k8s YAML files to explore multitenancy through namespaces in k8s
+
+# local set up
+These YAML files were tested on a local K8s cluster set up with 4 VMS on Debian 12 using KVM. Cluster was set up with `kubeadm` and Flannel CNI was used to handle networking across the nodes.
+
 # k8s-configs
 
 This whole thing is for **testing Kubernetes multitenancy (MT)** without the use of third-party security tools. Purpose is to see how tenants are isolated, what works, and where stuff breaks.
