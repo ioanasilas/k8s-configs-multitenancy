@@ -35,8 +35,12 @@ This folder holds **everything that enforces tenant separation**.
 
 ### autoscaling/ → HPA configs
 There's 2 HPAs for the 2 Noisy deployments in order to see more pods get created. We should enforce some resource quotas or limits to avoid the noisy neighbor situation.
-For it to work, Metrics Server should be installed in the cluster: kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-You may need to disable TLS certification for it to run properly, depending on what type of K8s you run
+For it to work, Metrics Server should be installed in the cluster: 
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
+
+TLC certification may need to be disabled for it to run properly, depending on what type of K8s this is ran onto.
 
 ### tests/ → Privileged Pod tests, Noisy Neighbor tests, Network Isolation tests
 We run **MT-related attack scenarios** here to see what breaks.  
